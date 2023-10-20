@@ -26,6 +26,7 @@ services:
             - ms-communication-and-search
         depends_on:
             - mysql
+            - rabbitmq
             # - redis
     ms-consumer-api:
         build:
@@ -58,6 +59,7 @@ services:
             - ms-communication-and-search
         depends_on:
             - mysql
+            - rabbitmq
             # - redis
     mysql:
         image: 'mysql:8.0'
