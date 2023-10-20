@@ -57,3 +57,8 @@ This project was made entirely focused on Microservices + RabbitMQ study.
     docker exec -t ms-consumer-api php artisan key:generate
     ```
 6. Enjoy :D
+
+## Packages
+
+- [Laravel](https://laravel.com)
+- [RabbitMQ](https://github.com/vyuldashev/laravel-queue-rabbitmq)
