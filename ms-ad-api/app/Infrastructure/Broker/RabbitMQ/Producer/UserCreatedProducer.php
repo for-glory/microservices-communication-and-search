@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace App\Infrastructure\Broker\RabbitMQ\Producer;
+
 use App\Enums\BrokerEnum;
 use App\Models\User;
 

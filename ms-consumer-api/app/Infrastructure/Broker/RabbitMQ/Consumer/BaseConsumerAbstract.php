@@ -84,6 +84,8 @@ abstract class BaseConsumerAbstract
     private function consumeCallback(AMQPMessage $message): void
     {
         $this->fire($this->getMessageBody($message) ?? []);
+
+        $message->ack();
     }
 
     /**
