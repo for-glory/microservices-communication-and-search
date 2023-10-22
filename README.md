@@ -7,56 +7,34 @@ This project was made entirely focused on Microservices + RabbitMQ study.
 
 ### Requirements
 
+- Make
 - Docker
 - Docker Compose
 
 ### Step by step
 
-#### Pre-defined steps
-
-1. Build
+1. Prepare envs
     ```bash
-    ./build.sh
+    make prepare-env
     ```
-2. Start
+2. Build
     ```bash
-    ./start.sh
+    make build
     ```
-3. Down
+3. Start
     ```bash
-    ./down.sh
+    make start
     ```
 
-#### Manual steps
-1. Enter the application folder
-    ```bash
-    cd microservices-communication-and-search
-    ```
-2. Copy the `.env.example`s to `.env`s
-    ```bash
-    cp .env.example .env
-    ```
-    ```bash
-    cp ./ms-ad-api/.env.example ./ms-ad-api/.env
-    ```
-    ```bash
-    cp ./ms-consumer-api/.env.example ./ms-consumer-api/.env
-    ```
-3. Start containers
-    ```bash
-    docker compose up -d
-    ```
-4. Install composer packages
-    ```bash
-    docker exec -t ms-ad-api composer install
-    docker exec -t ms-consumer-api composer install
-    ```
-5. Initiate app key
-    ```bash
-    docker exec -t ms-ad-api php artisan key:generate
-    docker exec -t ms-consumer-api php artisan key:generate
-    ```
-6. Enjoy :D
+## Commands
+
+- `make prepare-env`
+- `make build`
+- `make start`
+- `make down`
+- `make migrate`
+- `make composer-install`
+- `make generate-app-key`
 
 ## Packages
 
