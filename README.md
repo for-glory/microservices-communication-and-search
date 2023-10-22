@@ -61,4 +61,6 @@ This project was made entirely focused on Microservices + RabbitMQ study.
 ## Packages
 
 - [Laravel](https://laravel.com)
-- [RabbitMQ](https://github.com/vyuldashev/laravel-queue-rabbitmq)
+- [RabbitMQ](https://www.rabbitmq.com/)
+- [RabbitMQ AMQP PHP](https://www.rabbitmq.com/tutorials/tutorial-one-php.html)
+- [RabbitMQ Queue package](https://github.com/vyuldashev/laravel-queue-rabbitmq) (Não serviu, tive que implementar um :c)
