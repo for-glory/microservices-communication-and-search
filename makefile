@@ -63,3 +63,6 @@ start:
 down:
 	@docker compose down --remove-orphans
 	@clear
+
+chown:
+	@sudo chown -R $(USER):$(USER) .
