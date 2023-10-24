@@ -42,3 +42,6 @@ This project was made entirely focused on Microservices + RabbitMQ study.
 - [RabbitMQ](https://www.rabbitmq.com/)
 - [RabbitMQ AMQP PHP](https://www.rabbitmq.com/tutorials/tutorial-one-php.html)
 - [RabbitMQ Queue package](https://github.com/vyuldashev/laravel-queue-rabbitmq) (Não serviu, tive que implementar um :c)
+- [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html)
+    - [How-to on docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
+    - [How-to with PHP](https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/getting-started-php.html)
