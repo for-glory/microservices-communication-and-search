@@ -1,65 +1,29 @@
 services:
     ms-ad-api:
-        build:
-            context: ./.docker/php/runtime/8.2
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP-1000}'
-        container_name: ms-ad-api
-        image: laravel-php8.2/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        ports:
-            - '8001:80'
+        extends:
+            file: ./ms-ad-api/docker-compose.yml
+            service: ms-ad-api
         env_file:
-            - ./.env
             - ./ms-ad-api/.env
-        environment:
-            WWWUSER: '${WWWUSER:-1000}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
-            MYSQL_DB_HOST: '${MYSQL_DB_HOST}'
-            MYSQL_DB_PORT: '${MYSQL_DB_PORT}'
-            MYSQL_DB_USERNAME: '${MYSQL_DB_USERNAME}'
-            MYSQL_DB_PASSWORD: '${MYSQL_DB_PASSWORD}'
         volumes:
             - './ms-ad-api:/var/www/html'
         networks:
             - database
+            - rabbitmq
         depends_on:
             - mysql
             - rabbitmq
     ms-consumer-api:
-        build:
-            context: ./.docker/php/runtime/8.2
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP-1000}'
-        container_name: ms-consumer-api
-        image: laravel-php8.2/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        ports:
-            - '${APP_PORT:-8002}:80'
+        extends:
+            file: ./ms-consumer-api/docker-compose.yml
+            service: ms-consumer-api
         env_file:
-            - ./.env
             - ./ms-consumer-api/.env
-        environment:
-            WWWUSER: '${WWWUSER:-1000}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
-            MYSQL_DB_HOST: '${MYSQL_DB_HOST}'
-            MYSQL_DB_PORT: '${MYSQL_DB_PORT}'
-            MYSQL_DB_USERNAME: '${MYSQL_DB_USERNAME}'
-            MYSQL_DB_PASSWORD: '${MYSQL_DB_PASSWORD}'
         volumes:
             - './ms-consumer-api:/var/www/html'
         networks:
             - database
+            - rabbitmq
             - elasticsearch
         depends_on:
             - mysql
@@ -71,10 +35,10 @@ services:
         ports:
             - '${MYSQL_DB_FORWARD_PORT:-3306}:3306'
         environment:
-            MYSQL_ROOT_PASSWORD: '${MYSQL_DB_PASSWORD}'
+            MYSQL_ROOT_PASSWORD: '${MYSQL_DB_PASSWORD:-password}'
             MYSQL_ROOT_HOST: '%'
-            MYSQL_USER: '${MYSQL_DB_USERNAME}'
-            MYSQL_PASSWORD: '${MYSQL_DB_PASSWORD}'
+            MYSQL_USER: '${MYSQL_DB_USERNAME:-username}'
+            MYSQL_PASSWORD: '${MYSQL_DB_PASSWORD:-password}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - mysql:/var/lib/mysql
@@ -86,7 +50,7 @@ services:
                 - CMD
                 - mysqladmin
                 - ping
-                - '-p${DB_PASSWORD}'
+                - '-p${MYSQL_DB_PASSWORD:-password}'
             retries: 3
             timeout: 5s
     rabbitmq:
@@ -98,16 +62,14 @@ services:
             - "5672:5672"
         labels:
             NAME: "rabbitmq"
-            # USER: "guest"
-            # PASS: "guest"
         environment:
-            RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER}'
-            RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASSWORD}'
+            RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER:-guest}'
+            RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASSWORD:-guest}'
         volumes:
             - ./.docker/rabbitmq/rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
             - rabbitmq:/var/lib/rabbitmq
         networks:
-            - database
+            - rabbitmq
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.17.14
         container_name: elasticsearch
@@ -115,13 +77,15 @@ services:
             - "9200:9200"
         environment:
             discovery.type: single-node
-            ELASTIC_PASSWORD: '${ELASTIC_PASSWORD}'
+            ELASTIC_PASSWORD: '${ELASTIC_PASSWORD:-password}'
         networks:
             - elasticsearch
         volumes:
             - elasticsearch:/usr/share/elasticsearch/data
 networks:
     database:
+        driver: bridge
+    rabbitmq:
         driver: bridge
     elasticsearch:
         driver: bridge

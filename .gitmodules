@@ -1,6 +1,8 @@
 [submodule "ms-ad-api"]
 	path = ms-ad-api
 	url = git@github.com:Haaragard/ms-ad-api.git
+	branch = main
 [submodule "ms-consumer-api"]
 	path = ms-consumer-api
 	url = git@github.com:Haaragard/ms-consumer-api.git
+	branch = main
