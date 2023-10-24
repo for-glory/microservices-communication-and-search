@@ -26,39 +26,41 @@ ifneq (!$(wildcard $(MS_CONSUMER_API_PATH)/$(ENV_FILE_NAME)),)
 	@cp $(MS_CONSUMER_API_PATH)/$(ENV_EXAMPLE_FILE_NAME) $(MS_CONSUMER_API_PATH)/$(ENV_FILE_NAME)
 endif
 
-	@chown -R $(USER):$(USER) .
-
 composer-install:
 	@$(DOCKER_COMPOSE_RUN) $(MS_AD_API) $(COMPOSER_INSTALL)
 	@$(DOCKER_COMPOSE_RUN) $(MS_CONSUMER_API) $(COMPOSER_INSTALL)
-
-	@chown -R $(USER):$(USER) .
-
 	@clear
 
 generate-app-key:
 	@$(DOCKER_COMPOSE_RUN) $(MS_AD_API) $(KEY_GENERATE)
 	@$(DOCKER_COMPOSE_RUN) $(MS_CONSUMER_API) $(KEY_GENERATE)
+	@clear
 
 migrate:
 	@docker compose run $(MS_AD_API) $(ARTISAN_MIGRATE)
 	@docker compose run $(MS_CONSUMER_API) $(ARTISAN_MIGRATE)
-	@make down
+	@clear
 
 build:
 	@docker compose build
 
+	@make start
+
 	@make composer-install
-	@chown -R $(USER):$(USER) .
 
 	@make generate-app-key
 
-	@make migrate
+	@echo "Waiting 5 seconds before migrating DB"
+	@sleep 5 && make migrate
 
 	@clear
 
+test:
+	@sleep 10 && make migrate
+
 start:
 	@docker compose up -d
+	@echo "Application Up and kickin' !"
 
 down:
 	@docker compose down --remove-orphans
@@ -66,3 +68,7 @@ down:
 
 chown:
 	@sudo chown -R $(USER):$(USER) .
+
+pull-apis:
+	@git submodule init
+	@git submodule update
