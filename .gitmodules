@@ -2,9 +2,9 @@
 	path = ms-ad-api
 	url = git@github.com:Haaragard/ms-ad-api.git
 	branch = main
-	ignore = dirty
+	ignore = all
 [submodule "ms-consumer-api"]
 	path = ms-consumer-api
 	url = git@github.com:Haaragard/ms-consumer-api.git
 	branch = main
-	ignore = dirty
+	ignore = all
