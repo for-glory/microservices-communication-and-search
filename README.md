@@ -3,6 +3,12 @@
 This project was made entirely focused on Microservices + RabbitMQ study.
 + We have the usage of ElasticSearch for some smart findings
 
+## Clone
+
+- Clone **with** submodules
+
+    `git clone --recurse-submodules <reference-for-clone>`
+
 ## Start up
 
 ### Requirements
