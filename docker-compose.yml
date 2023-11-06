@@ -10,6 +10,7 @@ services:
         networks:
             - database
             - rabbitmq
+            - apis
         depends_on:
             - mysql
             - rabbitmq
@@ -25,6 +26,7 @@ services:
             - database
             - rabbitmq
             - elasticsearch
+            - apis
         depends_on:
             - mysql
             - rabbitmq
@@ -88,6 +90,8 @@ networks:
     rabbitmq:
         driver: bridge
     elasticsearch:
+        driver: bridge
+    apis:
         driver: bridge
 volumes:
     mysql:
