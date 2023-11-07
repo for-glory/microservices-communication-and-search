@@ -79,16 +79,16 @@ pull-apis:
 	@git submodule init
 	@git submodule update
 
-ad-migrate-fresh:
+.PHONY: ad-fresh
+ad-fresh:
 	@docker exec -it ms-ad-api php artisan migrate:fresh
 
-db-seed-client:
-	@docker exec -it ms-ad-api php artisan db:seed UserClientSeeder
+.PHONY: benchmark
+benchmark:
+	@docker exec -it ms-ad-api php artisan benchmark-user-create
 
-db-seed-mq:
-	@docker exec -it ms-ad-api php artisan db:seed UserSeeder
-
-consumer-migrate-fresh:
+.PHONY: consumer-fresh
+consumer-fresh:
 	@docker exec -it ms-consumer-api php artisan migrate:fresh
 
 consume-user-created:
