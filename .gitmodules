@@ -1,10 +1,8 @@
-[submodule "ms-ad-api"]
-	path = ms-ad-api
-	url = git@github.com:Haaragard/ms-ad-api.git
-	branch = main
-	ignore = all
 [submodule "ms-consumer-api"]
 	path = ms-consumer-api
-	url = git@github.com:Haaragard/ms-consumer-api.git
+	url = https://github.com/for-glory/ms-consumer-api
 	branch = main
-	ignore = all
+[submodule "ms-ad-api"]
+	path = ms-ad-api
+	url = https://github.com/for-glory/ms-ad-api
+	branch = main
